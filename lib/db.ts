@@ -1,9 +1,39 @@
 import "server-only";
 import { createAdminSupabaseClient } from "./supabase/admin";
 import { Faq, Reservation, ReservationInput, ReservationStatus, Store } from "./types";
+import {
+  mockCreateReservation,
+  mockGetReservedSeatsForSlot,
+  mockGetStore,
+  mockListFaqs,
+  mockListReservations,
+  mockUpdateReservation,
+  mockUpdateStore,
+} from "./mock-store";
+
+let warnedAboutDemoMode = false;
+
+/** Supabase 환경변수가 없으면 메모리 기반 데모 데이터로 동작한다 (API 키 없이 체험용). */
+function isSupabaseConfigured(): boolean {
+  const configured = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+
+  if (!configured && !warnedAboutDemoMode) {
+    warnedAboutDemoMode = true;
+    console.warn(
+      "[점장AI] Supabase 환경변수가 없어 메모리 기반 데모 데이터로 동작합니다. " +
+        "서버를 재시작하면 데이터가 초기화됩니다."
+    );
+  }
+
+  return configured;
+}
 
 // MVP는 단일 매장 구조이므로, 첫 번째 매장 row를 "그 매장"으로 사용한다.
 export async function getStore(): Promise<Store> {
+  if (!isSupabaseConfigured()) return mockGetStore();
+
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("stores")
@@ -19,6 +49,8 @@ export async function getStore(): Promise<Store> {
 }
 
 export async function updateStore(storeId: string, patch: Partial<Store>): Promise<Store> {
+  if (!isSupabaseConfigured()) return mockUpdateStore(patch);
+
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("stores")
@@ -37,6 +69,8 @@ export async function getReservedSeatsForSlot(
   date: string,
   time: string
 ): Promise<number> {
+  if (!isSupabaseConfigured()) return mockGetReservedSeatsForSlot(storeId, date, time);
+
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("reservations")
@@ -55,6 +89,8 @@ export async function createReservation(
   storeId: string,
   input: ReservationInput
 ): Promise<Reservation> {
+  if (!isSupabaseConfigured()) return mockCreateReservation(storeId, input);
+
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("reservations")
@@ -76,6 +112,8 @@ export async function createReservation(
 }
 
 export async function listReservations(storeId: string): Promise<Reservation[]> {
+  if (!isSupabaseConfigured()) return mockListReservations(storeId);
+
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("reservations")
@@ -92,6 +130,8 @@ export async function updateReservation(
   reservationId: string,
   patch: { status?: ReservationStatus; admin_note?: string }
 ): Promise<Reservation> {
+  if (!isSupabaseConfigured()) return mockUpdateReservation(reservationId, patch);
+
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("reservations")
@@ -105,6 +145,8 @@ export async function updateReservation(
 }
 
 export async function listFaqs(storeId: string): Promise<Faq[]> {
+  if (!isSupabaseConfigured()) return mockListFaqs();
+
   const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("faqs")

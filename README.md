@@ -61,7 +61,22 @@ supabase/
 4. 같은 날짜/시간대 pending+confirmed 인원 합계 + 신규 인원이 `max_reservation_seats`를 초과하면 불가
 5. 인원이 `group_reservation_threshold` 이상이면 pending 저장은 되지만 "매장 확인 후 확정" 안내
 
-## 로컬 실행 방법
+## API 키 없이 데모로 체험하기
+
+Supabase / OpenAI / 관리자 비밀번호를 아무것도 설정하지 않아도 전체 플로우를 바로 체험할 수 있다.
+
+```bash
+npm install
+npm run dev
+```
+
+- `.env.local`을 만들지 않아도 된다 (환경변수가 없으면 자동으로 데모 모드로 동작).
+- 예약 데이터는 Supabase 대신 서버 메모리에 저장된다. **서버를 재시작하면 초기화**된다.
+- FAQ는 OpenAI 대신 seed 데이터 기반 규칙 매칭으로 답변한다 (질문에 "주차", "영업시간", "라스트오더", "예약", "메뉴" 등의 키워드가 있으면 매칭).
+- 관리자(`/admin`) 로그인 비밀번호는 기본값 `admin1234`이다.
+- 실제 서비스로 쓰려면 아래 "로컬 실행 방법"을 따라 Supabase/OpenAI/ADMIN_PASSWORD를 반드시 설정해야 한다.
+
+## 로컬 실행 방법 (실제 Supabase/OpenAI 연동)
 
 ### 1. 의존성 설치
 

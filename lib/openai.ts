@@ -12,11 +12,20 @@ const SYSTEM_PROMPT = `너는 음식점의 AI 예약비서다.
 과장된 홍보 문구는 쓰지 않는다.`;
 
 let client: OpenAI | null = null;
+let warnedAboutDemoMode = false;
 
-function getClient(): OpenAI {
-  if (client) return client;
+function getClient(): OpenAI | null {
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("OPENAI_API_KEY 환경변수가 설정되지 않았습니다.");
+  if (!apiKey) {
+    if (!warnedAboutDemoMode) {
+      warnedAboutDemoMode = true;
+      console.warn(
+        "[점장AI] OPENAI_API_KEY가 없어 FAQ 데이터 기반 규칙 매칭으로 답변합니다 (데모 모드)."
+      );
+    }
+    return null;
+  }
+  if (client) return client;
   client = new OpenAI({ apiKey });
   return client;
 }
@@ -39,8 +48,32 @@ function buildStoreContext(store: Store, faqs: Faq[]): string {
 ${faqText}`;
 }
 
+/** OPENAI_API_KEY 없이 체험할 수 있도록 하는 규칙 기반 FAQ 매칭 (데모 모드 전용). */
+const CATEGORY_KEYWORDS: Record<string, string[]> = {
+  주차: ["주차"],
+  영업시간: ["영업", "몇시", "언제", "오픈", "마감", "라스트오더", "라스트 오더"],
+  예약: ["예약", "단체", "인원"],
+  메뉴: ["메뉴", "추천", "안주", "음식"],
+};
+
+function mockAskFaq(question: string, faqs: Faq[]): string {
+  for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+    if (keywords.some((k) => question.includes(k))) {
+      const matched = faqs.find((f) => f.category === category);
+      if (matched) {
+        return category === "예약"
+          ? `${matched.answer} 예약을 원하시면 예약 페이지에서 신청해주세요.`
+          : matched.answer;
+      }
+    }
+  }
+  return "매장 확인이 필요합니다.";
+}
+
 export async function askFaq(question: string, store: Store, faqs: Faq[]): Promise<string> {
   const openai = getClient();
+  if (!openai) return mockAskFaq(question, faqs);
+
   const context = buildStoreContext(store, faqs);
 
   const completion = await openai.chat.completions.create({
