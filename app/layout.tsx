@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { meta } from "@/lib/portfolio/content";
+import { site } from "@/lib/site/content";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: meta.title,
-  description: meta.description,
+  title: `${site.name} — Business Growth Strategist`,
+  description: site.philosophy,
+  openGraph: {
+    title: `${site.name} — Business Growth Strategist`,
+    description: site.philosophy,
+    type: "profile",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
-      <body className="min-h-screen bg-[#f9f9f7] text-[#0b0b0b]">{children}</body>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="min-h-screen font-sans antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
