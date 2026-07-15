@@ -8,4 +8,6 @@ html {
 
 body {
   @apply bg-[#f9f9f7] text-[#0b0b0b];
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
