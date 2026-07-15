@@ -182,7 +182,7 @@ export const resume = {
   ],
   pdfHref: "/resume-leon-joohyung-kim.pdf",
   linkedinHref: "https://www.linkedin.com/in/joohyungkim",
-  githubHref: "https://github.com/username",
+  githubHref: "https://github.com/okleon82",
   email: "joohk1179@gmail.com",
 };
 
