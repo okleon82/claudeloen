@@ -6,15 +6,7 @@ const config: Config = {
     "./components/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        brand: {
-          black: "#111111",
-          gray: "#6b7280",
-          light: "#f4f4f5",
-        },
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

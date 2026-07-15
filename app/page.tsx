@@ -1,36 +1,36 @@
-import Link from "next/link";
+import Hero from "@/components/portfolio/Hero";
+import StoryTimeline from "@/components/portfolio/StoryTimeline";
+import Project1Card from "@/components/portfolio/Project1Card";
+import Project2Card from "@/components/portfolio/Project2Card";
+import Project3Card from "@/components/portfolio/Project3Card";
+import Project4Card from "@/components/portfolio/Project4Card";
+import Skills from "@/components/portfolio/Skills";
+import Future from "@/components/portfolio/Future";
+import Contact from "@/components/portfolio/Contact";
+import { hero } from "@/lib/portfolio/content";
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-6 py-12">
-      <div className="mb-10 text-center">
-        <p className="mb-2 text-sm font-medium text-brand-gray">점장AI</p>
-        <h1 className="text-2xl font-bold leading-snug">
-          전화 받기 힘든 사장님을 위한
-          <br />
-          AI 예약비서
-        </h1>
-      </div>
+    <main className="min-h-screen bg-[#f9f9f7] px-4 py-10 sm:px-8">
+      <div className="mx-auto max-w-6xl">
+        <header className="mb-8 text-center">
+          <h1 className="text-2xl font-bold text-[#0b0b0b]">{hero.name} Portfolio</h1>
+          <p className="mt-1 text-sm text-[#52514e]">{hero.eyebrow}</p>
+        </header>
 
-      <div className="flex flex-col gap-3">
-        <Link
-          href="/reserve"
-          className="w-full rounded-xl bg-brand-black py-4 text-center text-base font-semibold text-white active:opacity-80"
-        >
-          예약하기
-        </Link>
-        <Link
-          href="/faq"
-          className="w-full rounded-xl border border-gray-300 bg-white py-4 text-center text-base font-semibold text-brand-black active:bg-brand-light"
-        >
-          FAQ 문의
-        </Link>
-        <Link
-          href="/admin"
-          className="w-full rounded-xl py-4 text-center text-sm font-medium text-brand-gray active:bg-brand-light"
-        >
-          관리자
-        </Link>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Hero />
+          <StoryTimeline />
+          <Project1Card />
+
+          <Project2Card />
+          <Project3Card />
+          <Project4Card />
+
+          <Skills />
+          <Future />
+          <Contact />
+        </div>
       </div>
     </main>
   );

@@ -1,145 +1,50 @@
-# 점장AI (MVP v0.1)
+# 개인 포트폴리오 웹페이지
 
-전화 받기 힘든 사장님을 위한 AI 예약비서. 소형 음식점/이자카야 사장님이 네이버 예약 연동 없이도
-바로 사용할 수 있는 자체 웹 예약 접수 + AI FAQ + 관리자 대시보드 MVP입니다.
+자기소개 + 경력/이력서 스타일의 1페이지 비즈니스 포트폴리오입니다. Next.js 14 (App Router) + Tailwind CSS로 만들었습니다.
 
-## 기술 스택
+## 로컬 실행
 
-- Frontend/Backend: Next.js 14 (App Router, API Route Handlers)
-- Database: Supabase PostgreSQL
-- Auth: 관리자 비밀번호 + 쿠키 세션 (미들웨어로 `/admin`, `/api/admin` 보호)
-- AI: OpenAI API (`gpt-4o-mini`)
-- Styling: Tailwind CSS
-- Deployment: Vercel
+```bash
+npm install
+npm run dev
+```
 
-## 페이지 구조
+`http://localhost:3000` 에서 확인할 수 있습니다.
 
-| 경로 | 설명 |
+## 내용 수정하기
+
+**`lib/portfolio/content.ts` 파일 하나만 수정하면 사이트의 모든 텍스트/숫자가 바뀝니다.**
+컴포넌트(`components/portfolio/*.tsx`, `components/charts/*.tsx`)는 레이아웃만 담당하므로 건드릴 필요가 없습니다.
+
+`content.ts` 안에서 수정 가능한 항목:
+
+| 항목 | 설명 |
 |---|---|
-| `/` | 랜딩 페이지 (예약하기 / FAQ 문의 / 관리자) |
-| `/reserve` | 고객 예약 요청 페이지 |
-| `/faq` | 고객 FAQ / AI 챗 페이지 |
-| `/admin` | 관리자 예약 대시보드 (비밀번호 보호) |
-| `/admin/settings` | 매장 기본 설정 (비밀번호 보호) |
-| `/admin/login` | 관리자 로그인 |
+| `meta` | 브라우저 탭 제목/설명 |
+| `hero` | 표지 문구, 이름, 관심 분야 태그 |
+| `story` | 경력/학력 타임라인 (아이콘, 제목, 설명, 연도) |
+| `project1` ~ `project4` | 프로젝트 4개 (제목, 지표, 실행 단계, 차트 데이터) |
+| `skills` | 역량 게이지, 사용 툴 뱃지 |
+| `future` | 향후 목표/비전 문구 |
+| `contact` | 이메일, 전화번호, 링크드인 등 연락처 |
+
+`OOO`, `example@email.com`, `20XX`, `000,000,000원` 처럼 표시된 값은 전부 예시(placeholder)이니
+실제 정보로 교체하면 됩니다. 필요 없는 프로젝트/섹션은 `app/page.tsx`에서 해당 컴포넌트를 지우면 됩니다.
+
+## 배포
+
+Vercel에 저장소를 Import 하면 별도 설정 없이 바로 배포됩니다 (환경변수 불필요).
 
 ## 폴더 구조
 
 ```
 app/
-  page.tsx                        랜딩
-  reserve/                        고객 예약 페이지
-  faq/                            고객 FAQ 페이지
-  admin/                          관리자 대시보드/설정/로그인
-  api/
-    reservations/route.ts         예약 생성 (공개)
-    faq/route.ts                  AI FAQ 응답 (공개)
-    admin/login/route.ts          관리자 로그인/로그아웃
-    admin/reservations/route.ts   예약 목록 조회 (관리자)
-    admin/reservations/[id]/      예약 상태/메모 변경 (관리자)
-    admin/store/route.ts          매장 설정 조회/수정 (관리자)
+  layout.tsx              메타데이터, 전역 폰트/배경
+  page.tsx                섹션을 그리드로 배치
+  globals.css             Tailwind 진입점
+components/
+  portfolio/              섹션별 컴포넌트 (Hero, StoryTimeline, ProjectCard, Skills, Future, Contact)
+  charts/                 차트 컴포넌트 (LineTrend, Donut, BarList, StatTile, Meter)
 lib/
-  supabase/client.ts               브라우저용 Supabase 클라이언트 (anon key)
-  supabase/admin.ts                서버 전용 Supabase 클라이언트 (service role key)
-  types.ts                         Store / Reservation / Faq 타입 정의
-  availability.ts                  예약 가능 여부 체크 로직
-  db.ts                            Supabase 데이터 접근 함수 모음
-  openai.ts                        OpenAI FAQ 응답 함수 (시스템 프롬프트 포함)
-  notify.ts                        사장님 알림 (현재 콘솔 로그, 추후 이메일/알림톡 교체용)
-  auth.ts                          관리자 비밀번호/세션 토큰 유틸
-middleware.ts                      /admin, /api/admin 접근 보호
-supabase/
-  schema.sql                       테이블 스키마
-  seed.sql                         초기 시드 데이터 (로바타풍산)
+  portfolio/content.ts    사이트에 표시되는 모든 텍스트/데이터
 ```
-
-## 예약 가능 여부 로직 (`lib/availability.ts`)
-
-1. 예약 날짜가 매장 휴무일이면 불가
-2. 예약 시간이 영업시간 밖이면 불가 (자정을 넘기는 영업시간도 지원)
-3. 예약 시간이 라스트오더 이후면 불가
-4. 같은 날짜/시간대 pending+confirmed 인원 합계 + 신규 인원이 `max_reservation_seats`를 초과하면 불가
-5. 인원이 `group_reservation_threshold` 이상이면 pending 저장은 되지만 "매장 확인 후 확정" 안내
-
-## API 키 없이 데모로 체험하기
-
-Supabase / OpenAI / 관리자 비밀번호를 아무것도 설정하지 않아도 전체 플로우를 바로 체험할 수 있다.
-
-```bash
-npm install
-npm run dev
-```
-
-- `.env.local`을 만들지 않아도 된다 (환경변수가 없으면 자동으로 데모 모드로 동작).
-- 예약 데이터는 Supabase 대신 서버 메모리에 저장된다. **서버를 재시작하면 초기화**된다.
-- FAQ는 OpenAI 대신 seed 데이터 기반 규칙 매칭으로 답변한다 (질문에 "주차", "영업시간", "라스트오더", "예약", "메뉴" 등의 키워드가 있으면 매칭).
-- 관리자(`/admin`) 로그인 비밀번호는 기본값 `admin1234`이다.
-- 실제 서비스로 쓰려면 아래 "로컬 실행 방법"을 따라 Supabase/OpenAI/ADMIN_PASSWORD를 반드시 설정해야 한다.
-
-## 로컬 실행 방법 (실제 Supabase/OpenAI 연동)
-
-### 1. 의존성 설치
-
-```bash
-npm install
-```
-
-### 2. Supabase 프로젝트 준비
-
-1. [supabase.com](https://supabase.com)에서 새 프로젝트 생성
-2. Supabase 대시보드 → SQL Editor에서 아래 순서로 실행
-   - `supabase/schema.sql` 실행 (테이블 생성)
-   - `supabase/seed.sql` 실행 (초기 매장/FAQ 데이터 등록)
-3. Project Settings → API에서 URL / anon key / service role key 확인
-
-### 3. 환경변수 설정
-
-`.env.local.example`을 복사해 `.env.local`을 만들고 값을 채워주세요.
-
-```bash
-cp .env.local.example .env.local
-```
-
-```
-NEXT_PUBLIC_SUPABASE_URL=       # Supabase 프로젝트 URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY=  # Supabase anon public key
-SUPABASE_SERVICE_ROLE_KEY=      # Supabase service role key (서버 전용, 절대 클라이언트에 노출 금지)
-OPENAI_API_KEY=                 # OpenAI API 키
-ADMIN_PASSWORD=                 # /admin 관리자 로그인 비밀번호
-```
-
-### 4. 개발 서버 실행
-
-```bash
-npm run dev
-```
-
-`http://localhost:3000` 접속. 관리자 페이지는 `http://localhost:3000/admin`에서 `ADMIN_PASSWORD`로 로그인합니다.
-
-## Vercel 배포 방법
-
-1. GitHub 저장소를 Vercel에 Import
-2. Framework Preset: Next.js (자동 감지)
-3. Project Settings → Environment Variables에 아래 5개 값을 등록
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `OPENAI_API_KEY`
-   - `ADMIN_PASSWORD`
-4. Deploy 클릭
-5. 배포 전에 Supabase 프로젝트에 `schema.sql`, `seed.sql`이 이미 적용되어 있어야 합니다.
-
-## 개발 우선순위 (구현 완료 상태)
-
-- 1순위: DB schema, 예약 생성, 예약 목록, 예약 상태 변경 ✅
-- 2순위: 매장 설정, 예약 가능 여부 체크 ✅
-- 3순위: FAQ AI 응답 ✅
-- 4순위: UI 개선, 관리자 비밀번호 보호 ✅
-
-## 이번 버전(v0.1)에서 제외된 범위
-
-- 네이버 예약 직접 연동
-- 카카오톡 알림톡 연동 (현재는 콘솔 로그로 대체)
-- 결제 기능 / POS 연동
-- 복잡한 테이블 배치 알고리즘
-- SNS 자동화, CRM 고도화
