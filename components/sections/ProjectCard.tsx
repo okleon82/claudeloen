@@ -65,6 +65,12 @@ export function ProjectCard({ project }: { project: Project }) {
               </div>
             </div>
           )}
+
+          {project.insight && (
+            <p className="mt-auto rounded-xl bg-secondary/60 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
+              {project.insight}
+            </p>
+          )}
         </>
       )}
     </div>

@@ -58,6 +58,7 @@ export interface Project {
   problem: string;
   actions: string[];
   metric?: Metric;
+  insight?: string;
   status: "live" | "capability" | "soon";
 }
 
@@ -94,19 +95,23 @@ export const projects: Project[] = [
   },
   {
     index: "03",
-    title: "Business Analytics",
-    subtitle: "Power BI Dashboard",
-    problem: "Operational decisions were made on intuition, not data.",
-    actions: ["Power BI", "Dashboard Design", "Sales", "Inventory", "Customer Insights"],
+    title: "Sephora vs. Ulta",
+    subtitle: "Competitive Retail Analysis · FIT Team Project",
+    problem: "How two beauty retailers compete on merchandising, omnichannel experience, and financial performance.",
+    actions: ["Merchandising Strategy", "Omnichannel Analysis", "Financial Benchmarking", "SWOT Analysis"],
+    insight:
+      "Ulta converted assets into profit faster (17.53% ROA vs. Sephora's 12.72%), even with a lower net margin (9.54% vs. 12%) — a broader assortment and loyalty program outweighed Sephora's premium positioning.",
     status: "capability",
   },
   {
     index: "04",
-    title: "Fashion Business Project",
-    subtitle: "Coming soon",
-    problem: "",
-    actions: [],
-    status: "soon",
+    title: "Outerwear Buying Plan",
+    subtitle: "Rachel by Rachel Roy · FIT Buying Project",
+    problem: "Building a season assortment plan across parkas, trenches, and utilitarian outerwear against last year's sell-through.",
+    actions: ["Assortment Planning", "Markup Strategy", "Trend Forecasting"],
+    insight:
+      "Shifted buy mix toward trenches (35% → 50% of one cluster) after reading last year's sell-through, priced at a 55% average markup with $x9 psychological pricing.",
+    status: "capability",
   },
 ];
 
