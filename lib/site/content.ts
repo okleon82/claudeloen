@@ -141,6 +141,24 @@ export const journal: JournalArticle[] = [
     content:
       "Muji built a global business by removing everything ornamental: no visible logo, no unnecessary packaging, no decorative flourish on the product itself. That restraint became a distinct identity in a market full of noise, and it kept costs — and prices — structurally lower than competitors. Sometimes the most defensible strategy is subtraction, not addition.",
   },
+  {
+    title: "How Zara Turned Speed Into a Brand",
+    teaser: "The product isn't the dress. The product is being first.",
+    content:
+      "Zara's edge was never design — it was the two-week loop from sketch to store shelf, built on small batches and a supply chain designed to move fast, not cheap. That speed manufactured scarcity: an item you didn't buy this week is likely gone next week. Commercial planning was the brand strategy — inventory turnover became the thing customers felt as 'always something new.'",
+  },
+  {
+    title: "Nike Doesn't Sell Shoes — It Sells Identity",
+    teaser: "\"Just Do It\" was never about the product spec sheet.",
+    content:
+      "Nike's advertising rarely dwells on cushioning technology; it sells the identity of the person who pushes through. That emotional anchor lets Nike command premium pricing and stay relevant across sports, generations, and product cycles that would sink a feature-led competitor. When the brand sells identity, the product just has to be good enough to carry it.",
+  },
+  {
+    title: "Patagonia's Anti-Growth Growth Strategy",
+    teaser: "\"Don't Buy This Jacket\" sold more jackets.",
+    content:
+      "Patagonia built loyalty by telling customers to consume less and repair what they own — a message that should have hurt sales but instead deepened trust to the point that customers chose the brand for everything else they did buy. Values, credibly held even at a short-term cost, became the moat competitors couldn't copy without admitting they didn't mean it.",
+  },
 ];
 
 export interface SkillItem {
@@ -184,10 +202,12 @@ export const resume = {
   linkedinHref: "https://www.linkedin.com/in/joo-hyung-kim-971800187",
   githubHref: "https://github.com/okleon82",
   email: "joohk1179@gmail.com",
+  phone: "010-8040-0802",
 };
 
 export const contact = {
   heading: "Let's build something that grows.",
   subheading: "Open to business growth, strategy, and analytics roles.",
   email: "joohk1179@gmail.com",
+  phone: "010-8040-0802",
 };

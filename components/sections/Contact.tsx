@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 import { contact } from "@/lib/site/content";
 import { FadeIn } from "@/components/motion/FadeIn";
@@ -15,11 +15,17 @@ export function Contact() {
           <p className="mt-4 text-primary-foreground/70">{contact.subheading}</p>
         </FadeIn>
 
-        <FadeIn delay={0.1} className="mt-10">
+        <FadeIn delay={0.1} className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <Button size="lg" variant="outline" className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10" asChild>
             <a href={`mailto:${contact.email}`}>
               <Mail className="h-4 w-4" />
               {contact.email}
+            </a>
+          </Button>
+          <Button size="lg" variant="outline" className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10" asChild>
+            <a href={`tel:${contact.phone.replace(/-/g, "")}`}>
+              <Phone className="h-4 w-4" />
+              {contact.phone}
             </a>
           </Button>
         </FadeIn>

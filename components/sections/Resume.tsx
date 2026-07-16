@@ -18,6 +18,9 @@ export function Resume() {
           <div className="rounded-2xl border border-border bg-card p-8 sm:p-10">
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{site.fullName}</p>
             <h3 className="mt-2 text-2xl font-semibold tracking-tight">{resume.role}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {resume.email} · {resume.phone}
+            </p>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">{resume.summary}</p>
 
