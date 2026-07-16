@@ -32,6 +32,7 @@ export interface TimelineStep {
 
 export const about = {
   title: "Who I Am",
+  photo: "/leon-photo.jpg",
   intro:
     "Not a straight line — a path built one operating decision at a time, from the shop floor to the dashboard.",
   timeline: [
