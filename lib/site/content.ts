@@ -205,6 +205,7 @@ export const resume = {
     "Full operational ownership: P&L, cost and inventory, staffing, customer experience",
   ],
   pdfHref: "/resume-leon-joohyung-kim.pdf",
+  coverLetterHref: "/leon-cover-letter-kr.pdf",
   linkedinHref: "https://www.linkedin.com/in/joo-hyung-kim-971800187",
   githubHref: "https://github.com/okleon82",
   email: "joohk1179@gmail.com",

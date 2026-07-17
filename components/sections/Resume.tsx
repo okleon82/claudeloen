@@ -1,4 +1,4 @@
-import { Download, Github, Linkedin, Mail } from "lucide-react";
+import { Download, FileText, Github, Linkedin, Mail } from "lucide-react";
 
 import { resume, site } from "@/lib/site/content";
 import { FadeIn } from "@/components/motion/FadeIn";
@@ -40,6 +40,12 @@ export function Resume() {
                 <a href={resume.pdfHref} download>
                   <Download className="h-4 w-4" />
                   Download PDF
+                </a>
+              </Button>
+              <Button variant="outline" asChild>
+                <a href={resume.coverLetterHref} download>
+                  <FileText className="h-4 w-4" />
+                  자기소개서 (PDF)
                 </a>
               </Button>
               <Button variant="outline" asChild>
