@@ -9,6 +9,11 @@
     }
   },
   "enabledPlugins": {
-    "theme-factory@awesome-claude-skills": true
+    "theme-factory@awesome-claude-skills": true,
+    "canvas-design@awesome-claude-skills": true,
+    "brand-guidelines@awesome-claude-skills": true,
+    "content-research-writer@awesome-claude-skills": true,
+    "domain-name-brainstormer@awesome-claude-skills": true,
+    "competitive-ads-extractor@awesome-claude-skills": true
   }
 }
