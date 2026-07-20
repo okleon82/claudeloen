@@ -1,0 +1,14 @@
+{
+  "extraKnownMarketplaces": {
+    "awesome-claude-skills": {
+      "source": {
+        "source": "github",
+        "repo": "ComposioHQ/awesome-codex-skills",
+        "path": "composio-skills/.claude-plugin/marketplace.json"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "theme-factory@awesome-claude-skills": true
+  }
+}
