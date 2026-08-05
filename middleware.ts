@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ADMIN_SESSION_COOKIE, createAdminSessionToken } from "@/lib/auth";
+import { SESSION_COOKIE, createSessionToken } from "@/lib/auth";
 
+// 개인 자금관리 데이터를 다루는 앱이므로 사이트 전체를 비밀번호로 보호한다.
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname === "/admin/login" || pathname === "/api/admin/login") {
+  if (pathname === "/login" || pathname === "/api/login") {
     return NextResponse.next();
   }
 
-  const cookie = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
-  const expected = await createAdminSessionToken();
+  const cookie = request.cookies.get(SESSION_COOKIE)?.value;
+  const expected = await createSessionToken();
   const authorized = Boolean(cookie) && cookie === expected;
 
   if (authorized) {
@@ -20,10 +21,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.json({ error: "인증이 필요합니다." }, { status: 401 });
   }
 
-  const loginUrl = new URL("/admin/login", request.url);
+  const loginUrl = new URL("/login", request.url);
+  loginUrl.searchParams.set("next", pathname);
   return NextResponse.redirect(loginUrl);
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

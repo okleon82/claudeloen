@@ -1,159 +1,207 @@
 import "server-only";
-import { createAdminSupabaseClient } from "./supabase/admin";
-import { Faq, Reservation, ReservationInput, ReservationStatus, Store } from "./types";
+import { createAdminSupabaseClient, hasSupabaseConfig } from "./supabase/admin";
 import {
-  mockCreateReservation,
-  mockGetReservedSeatsForSlot,
-  mockGetStore,
-  mockListFaqs,
-  mockListReservations,
-  mockUpdateReservation,
-  mockUpdateStore,
-} from "./mock-store";
+  AllocationSettings,
+  Debt,
+  EtfSettings,
+  GoalPlanItem,
+  GoalPlanSettings,
+  LongTermSettings,
+  MonthlyRecord,
+  StockHolding,
+} from "./types";
+import * as mock from "./mock-store";
 
-let warnedAboutDemoMode = false;
-
-/** Supabase 환경변수가 없으면 메모리 기반 데모 데이터로 동작한다 (API 키 없이 체험용). */
-function isSupabaseConfigured(): boolean {
-  const configured = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
-
-  if (!configured && !warnedAboutDemoMode) {
-    warnedAboutDemoMode = true;
-    console.warn(
-      "[점장AI] Supabase 환경변수가 없어 메모리 기반 데모 데이터로 동작합니다. " +
-        "서버를 재시작하면 데이터가 초기화됩니다."
-    );
-  }
-
-  return configured;
+function useSupabase(): boolean {
+  return hasSupabaseConfig();
 }
 
-// MVP는 단일 매장 구조이므로, 첫 번째 매장 row를 "그 매장"으로 사용한다.
-export async function getStore(): Promise<Store> {
-  if (!isSupabaseConfigured()) return mockGetStore();
-
-  const supabase = createAdminSupabaseClient();
-  const { data, error } = await supabase
-    .from("stores")
-    .select("*")
-    .order("created_at", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-
-  if (error) throw new Error(`매장 정보 조회 실패: ${error.message}`);
-  if (!data) throw new Error("매장 정보가 없습니다. seed 데이터를 먼저 등록해주세요.");
-
-  return data as Store;
+// ── 월별기록 ──
+export async function listMonthlyRecords(): Promise<MonthlyRecord[]> {
+  if (!useSupabase()) return mock.mockListMonthlyRecords();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("monthly_records").select("*").order("month");
+  if (error) throw error;
+  return data as MonthlyRecord[];
 }
 
-export async function updateStore(storeId: string, patch: Partial<Store>): Promise<Store> {
-  if (!isSupabaseConfigured()) return mockUpdateStore(patch);
+export async function upsertMonthlyRecord(
+  input: Omit<MonthlyRecord, "id"> & { id?: string }
+): Promise<MonthlyRecord> {
+  if (!useSupabase()) return mock.mockUpsertMonthlyRecord(input);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("monthly_records").upsert(input).select().single();
+  if (error) throw error;
+  return data as MonthlyRecord;
+}
 
-  const supabase = createAdminSupabaseClient();
-  const { data, error } = await supabase
-    .from("stores")
+export async function deleteMonthlyRecord(id: string): Promise<void> {
+  if (!useSupabase()) return mock.mockDeleteMonthlyRecord(id);
+  const sb = createAdminSupabaseClient();
+  const { error } = await sb.from("monthly_records").delete().eq("id", id);
+  if (error) throw error;
+}
+
+// ── 대출 ──
+export async function listDebts(): Promise<Debt[]> {
+  if (!useSupabase()) return mock.mockListDebts();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("debts").select("*").order("priority");
+  if (error) throw error;
+  return data as Debt[];
+}
+
+export async function upsertDebt(input: Omit<Debt, "id"> & { id?: string }): Promise<Debt> {
+  if (!useSupabase()) return mock.mockUpsertDebt(input);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("debts").upsert(input).select().single();
+  if (error) throw error;
+  return data as Debt;
+}
+
+export async function deleteDebt(id: string): Promise<void> {
+  if (!useSupabase()) return mock.mockDeleteDebt(id);
+  const sb = createAdminSupabaseClient();
+  const { error } = await sb.from("debts").delete().eq("id", id);
+  if (error) throw error;
+}
+
+// ── 장기플랜 설정 (싱글턴) ──
+export async function getLongTermSettings(): Promise<LongTermSettings> {
+  if (!useSupabase()) return mock.mockGetLongTermSettings();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("long_term_settings").select("*").eq("id", 1).single();
+  if (error) throw error;
+  return data as LongTermSettings;
+}
+
+export async function updateLongTermSettings(
+  patch: Partial<LongTermSettings>
+): Promise<LongTermSettings> {
+  if (!useSupabase()) return mock.mockUpdateLongTermSettings(patch);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb
+    .from("long_term_settings")
     .update(patch)
-    .eq("id", storeId)
-    .select("*")
+    .eq("id", 1)
+    .select()
     .single();
-
-  if (error) throw new Error(`매장 정보 수정 실패: ${error.message}`);
-  return data as Store;
+  if (error) throw error;
+  return data as LongTermSettings;
 }
 
-/** 같은 매장/날짜/시간대에 이미 pending 또는 confirmed 상태로 잡힌 인원 합계 */
-export async function getReservedSeatsForSlot(
-  storeId: string,
-  date: string,
-  time: string
-): Promise<number> {
-  if (!isSupabaseConfigured()) return mockGetReservedSeatsForSlot(storeId, date, time);
-
-  const supabase = createAdminSupabaseClient();
-  const { data, error } = await supabase
-    .from("reservations")
-    .select("party_size")
-    .eq("store_id", storeId)
-    .eq("reservation_date", date)
-    .eq("reservation_time", time)
-    .in("status", ["pending", "confirmed"]);
-
-  if (error) throw new Error(`예약 현황 조회 실패: ${error.message}`);
-
-  return (data ?? []).reduce((sum, row) => sum + (row.party_size as number), 0);
+// ── 자금확보플랜 설정 (싱글턴) & 항목 ──
+export async function getGoalSettings(): Promise<GoalPlanSettings> {
+  if (!useSupabase()) return mock.mockGetGoalSettings();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("goal_plan_settings").select("*").eq("id", 1).single();
+  if (error) throw error;
+  return data as GoalPlanSettings;
 }
 
-export async function createReservation(
-  storeId: string,
-  input: ReservationInput
-): Promise<Reservation> {
-  if (!isSupabaseConfigured()) return mockCreateReservation(storeId, input);
-
-  const supabase = createAdminSupabaseClient();
-  const { data, error } = await supabase
-    .from("reservations")
-    .insert({
-      store_id: storeId,
-      customer_name: input.customer_name,
-      phone: input.phone,
-      reservation_date: input.reservation_date,
-      reservation_time: input.reservation_time,
-      party_size: input.party_size,
-      memo: input.memo || null,
-      status: "pending",
-    })
-    .select("*")
-    .single();
-
-  if (error) throw new Error(`예약 생성 실패: ${error.message}`);
-  return data as Reservation;
-}
-
-export async function listReservations(storeId: string): Promise<Reservation[]> {
-  if (!isSupabaseConfigured()) return mockListReservations(storeId);
-
-  const supabase = createAdminSupabaseClient();
-  const { data, error } = await supabase
-    .from("reservations")
-    .select("*")
-    .eq("store_id", storeId)
-    .order("reservation_date", { ascending: true })
-    .order("reservation_time", { ascending: true });
-
-  if (error) throw new Error(`예약 목록 조회 실패: ${error.message}`);
-  return (data ?? []) as Reservation[];
-}
-
-export async function updateReservation(
-  reservationId: string,
-  patch: { status?: ReservationStatus; admin_note?: string }
-): Promise<Reservation> {
-  if (!isSupabaseConfigured()) return mockUpdateReservation(reservationId, patch);
-
-  const supabase = createAdminSupabaseClient();
-  const { data, error } = await supabase
-    .from("reservations")
+export async function updateGoalSettings(
+  patch: Partial<GoalPlanSettings>
+): Promise<GoalPlanSettings> {
+  if (!useSupabase()) return mock.mockUpdateGoalSettings(patch);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb
+    .from("goal_plan_settings")
     .update(patch)
-    .eq("id", reservationId)
-    .select("*")
+    .eq("id", 1)
+    .select()
     .single();
-
-  if (error) throw new Error(`예약 수정 실패: ${error.message}`);
-  return data as Reservation;
+  if (error) throw error;
+  return data as GoalPlanSettings;
 }
 
-export async function listFaqs(storeId: string): Promise<Faq[]> {
-  if (!isSupabaseConfigured()) return mockListFaqs();
+export async function listGoalItems(): Promise<GoalPlanItem[]> {
+  if (!useSupabase()) return mock.mockListGoalItems();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("goal_plan_items").select("*").order("sort_order");
+  if (error) throw error;
+  return data as GoalPlanItem[];
+}
 
-  const supabase = createAdminSupabaseClient();
-  const { data, error } = await supabase
-    .from("faqs")
-    .select("*")
-    .eq("store_id", storeId)
-    .order("created_at", { ascending: true });
+export async function upsertGoalItem(
+  input: Omit<GoalPlanItem, "id"> & { id?: string }
+): Promise<GoalPlanItem> {
+  if (!useSupabase()) return mock.mockUpsertGoalItem(input);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("goal_plan_items").upsert(input).select().single();
+  if (error) throw error;
+  return data as GoalPlanItem;
+}
 
-  if (error) throw new Error(`FAQ 조회 실패: ${error.message}`);
-  return (data ?? []) as Faq[];
+export async function deleteGoalItem(id: string): Promise<void> {
+  if (!useSupabase()) return mock.mockDeleteGoalItem(id);
+  const sb = createAdminSupabaseClient();
+  const { error } = await sb.from("goal_plan_items").delete().eq("id", id);
+  if (error) throw error;
+}
+
+// ── 여유자금 배분 설정 (싱글턴) ──
+export async function getAllocationSettings(): Promise<AllocationSettings> {
+  if (!useSupabase()) return mock.mockGetAllocationSettings();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("allocation_settings").select("*").eq("id", 1).single();
+  if (error) throw error;
+  return data as AllocationSettings;
+}
+
+export async function updateAllocationSettings(
+  patch: Partial<AllocationSettings>
+): Promise<AllocationSettings> {
+  if (!useSupabase()) return mock.mockUpdateAllocationSettings(patch);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb
+    .from("allocation_settings")
+    .update(patch)
+    .eq("id", 1)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as AllocationSettings;
+}
+
+// ── ETF 설정 (싱글턴) ──
+export async function getEtfSettings(): Promise<EtfSettings> {
+  if (!useSupabase()) return mock.mockGetEtfSettings();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("etf_settings").select("*").eq("id", 1).single();
+  if (error) throw error;
+  return data as EtfSettings;
+}
+
+export async function updateEtfSettings(patch: Partial<EtfSettings>): Promise<EtfSettings> {
+  if (!useSupabase()) return mock.mockUpdateEtfSettings(patch);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("etf_settings").update(patch).eq("id", 1).select().single();
+  if (error) throw error;
+  return data as EtfSettings;
+}
+
+// ── 개별주 ──
+export async function listStocks(): Promise<StockHolding[]> {
+  if (!useSupabase()) return mock.mockListStocks();
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("stock_holdings").select("*").order("sort_order");
+  if (error) throw error;
+  return data as StockHolding[];
+}
+
+export async function upsertStock(
+  input: Omit<StockHolding, "id"> & { id?: string }
+): Promise<StockHolding> {
+  if (!useSupabase()) return mock.mockUpsertStock(input);
+  const sb = createAdminSupabaseClient();
+  const { data, error } = await sb.from("stock_holdings").upsert(input).select().single();
+  if (error) throw error;
+  return data as StockHolding;
+}
+
+export async function deleteStock(id: string): Promise<void> {
+  if (!useSupabase()) return mock.mockDeleteStock(id);
+  const sb = createAdminSupabaseClient();
+  const { error } = await sb.from("stock_holdings").delete().eq("id", id);
+  if (error) throw error;
 }

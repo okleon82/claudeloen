@@ -1,69 +1,60 @@
-# 점장AI (MVP v0.1)
+# 자금관리 · ETF증식자산
 
-전화 받기 힘든 사장님을 위한 AI 예약비서. 소형 음식점/이자카야 사장님이 네이버 예약 연동 없이도
-바로 사용할 수 있는 자체 웹 예약 접수 + AI FAQ + 관리자 대시보드 MVP입니다.
+개인용 자금관리 웹앱. 업로드된 `자금관리_수정본_ETF증식자산 v6.xlsx` 워크북(이번 달 자금관리 · 월별기록 · 장기플랜 ·
+자금확보플랜 · 여유자금 배분 · ETF 증식자산)을 모바일에서 수정 가능한 웹사이트로 옮긴 것입니다. 스프레드시트의
+수식은 모두 실시간 계산 로직(`lib/calc.ts`)으로 재현되어, 값을 바꾸면 관련된 모든 숫자가 즉시 다시 계산됩니다.
 
 ## 기술 스택
 
 - Frontend/Backend: Next.js 14 (App Router, API Route Handlers)
 - Database: Supabase PostgreSQL
-- Auth: 관리자 비밀번호 + 쿠키 세션 (미들웨어로 `/admin`, `/api/admin` 보호)
-- AI: OpenAI API (`gpt-4o-mini`)
-- Styling: Tailwind CSS
+- Auth: 앱 비밀번호 + 쿠키 세션 (미들웨어로 사이트 전체 보호, 로그인 페이지만 예외)
+- Styling: Tailwind CSS (모바일 우선)
 - Deployment: Vercel
 
 ## 페이지 구조
 
 | 경로 | 설명 |
 |---|---|
-| `/` | 랜딩 페이지 (예약하기 / FAQ 문의 / 관리자) |
-| `/reserve` | 고객 예약 요청 페이지 |
-| `/faq` | 고객 FAQ / AI 챗 페이지 |
-| `/admin` | 관리자 예약 대시보드 (비밀번호 보호) |
-| `/admin/settings` | 매장 기본 설정 (비밀번호 보호) |
-| `/admin/login` | 관리자 로그인 |
+| `/` | 이번 달 자금관리 요약 + 자산·부채 요약 + 바로가기 |
+| `/monthly` | 월별기록 (월별 수입/지출 입력, 누적 보유자산 자동 계산) |
+| `/debts` | 장기플랜 — 자산·부채 현황, 대출 상세, 퇴직 관련 예상액 |
+| `/goal` | 자금확보플랜 — 목표(호주 워킹홀리데이 등) 준비 비용 항목 |
+| `/allocation` | 여유자금 배분 — 부채상환/ETF/개별주/CMA 단계별 배분, CMA 성장 표 |
+| `/etf` | ETF 증식자산 — 30년 시나리오 시뮬레이션, 목표 순자산 도달 시점, 개별주 트래킹 |
+| `/login` | 로그인 |
+
+전체 사이트가 비밀번호로 보호됩니다(개인 재무 정보를 다루므로). `middleware.ts`가 `/login`, `/api/login`을
+제외한 모든 경로를 세션 쿠키로 검사합니다.
 
 ## 폴더 구조
 
 ```
 app/
-  page.tsx                        랜딩
-  reserve/                        고객 예약 페이지
-  faq/                            고객 FAQ 페이지
-  admin/                          관리자 대시보드/설정/로그인
-  api/
-    reservations/route.ts         예약 생성 (공개)
-    faq/route.ts                  AI FAQ 응답 (공개)
-    admin/login/route.ts          관리자 로그인/로그아웃
-    admin/reservations/route.ts   예약 목록 조회 (관리자)
-    admin/reservations/[id]/      예약 상태/메모 변경 (관리자)
-    admin/store/route.ts          매장 설정 조회/수정 (관리자)
+  page.tsx, DashboardClient.tsx        이번 달 자금관리 (/)
+  monthly/                             월별기록
+  debts/                               장기플랜
+  goal/                                자금확보플랜
+  allocation/                          여유자금 배분
+  etf/                                 ETF 증식자산 + 개별주
+  login/                               로그인
+  api/                                 각 화면에 대응하는 CRUD 라우트
 lib/
-  supabase/client.ts               브라우저용 Supabase 클라이언트 (anon key)
-  supabase/admin.ts                서버 전용 Supabase 클라이언트 (service role key)
-  types.ts                         Store / Reservation / Faq 타입 정의
-  availability.ts                  예약 가능 여부 체크 로직
-  db.ts                            Supabase 데이터 접근 함수 모음
-  openai.ts                        OpenAI FAQ 응답 함수 (시스템 프롬프트 포함)
-  notify.ts                        사장님 알림 (현재 콘솔 로그, 추후 이메일/알림톡 교체용)
-  auth.ts                          관리자 비밀번호/세션 토큰 유틸
-middleware.ts                      /admin, /api/admin 접근 보호
+  types.ts                             도메인 타입
+  calc.ts                              스프레드시트 수식 재현 (NPER, FV, 누적계산 등)
+  db.ts                                Supabase ↔ 데모 모드 분기
+  mock-store.ts                        Supabase 미설정 시 메모리 저장 (업로드 워크북 값으로 시드)
+  auth.ts                              비밀번호 세션 토큰
+  supabase/                            Supabase 클라이언트
+middleware.ts                          사이트 전체 접근 보호
 supabase/
-  schema.sql                       테이블 스키마
-  seed.sql                         초기 시드 데이터 (로바타풍산)
+  schema.sql                           테이블 스키마
+  seed.sql                             업로드 워크북 값 기반 초기 데이터
 ```
-
-## 예약 가능 여부 로직 (`lib/availability.ts`)
-
-1. 예약 날짜가 매장 휴무일이면 불가
-2. 예약 시간이 영업시간 밖이면 불가 (자정을 넘기는 영업시간도 지원)
-3. 예약 시간이 라스트오더 이후면 불가
-4. 같은 날짜/시간대 pending+confirmed 인원 합계 + 신규 인원이 `max_reservation_seats`를 초과하면 불가
-5. 인원이 `group_reservation_threshold` 이상이면 pending 저장은 되지만 "매장 확인 후 확정" 안내
 
 ## API 키 없이 데모로 체험하기
 
-Supabase / OpenAI / 관리자 비밀번호를 아무것도 설정하지 않아도 전체 플로우를 바로 체험할 수 있다.
+Supabase / APP_PASSWORD를 아무것도 설정하지 않아도 전체 플로우를 바로 체험할 수 있다.
 
 ```bash
 npm install
@@ -71,12 +62,13 @@ npm run dev
 ```
 
 - `.env.local`을 만들지 않아도 된다 (환경변수가 없으면 자동으로 데모 모드로 동작).
-- 예약 데이터는 Supabase 대신 서버 메모리에 저장된다. **서버를 재시작하면 초기화**된다.
-- FAQ는 OpenAI 대신 seed 데이터 기반 규칙 매칭으로 답변한다 (질문에 "주차", "영업시간", "라스트오더", "예약", "메뉴" 등의 키워드가 있으면 매칭).
-- 관리자(`/admin`) 로그인 비밀번호는 기본값 `admin1234`이다.
-- 실제 서비스로 쓰려면 아래 "로컬 실행 방법"을 따라 Supabase/OpenAI/ADMIN_PASSWORD를 반드시 설정해야 한다.
+- 데이터는 Supabase 대신 서버 메모리에 저장되며, 업로드된 워크북의 실제 값으로 미리 채워져 있다.
+  **서버를 재시작하면 초기화**된다.
+- 로그인 비밀번호는 기본값 `admin1234`이다.
+- 실제로 계속 쓰려면(모바일에서 수정한 내용이 남아있으려면) 아래 "로컬 실행 방법"을 따라 Supabase를 반드시
+  설정해야 한다.
 
-## 로컬 실행 방법 (실제 Supabase/OpenAI 연동)
+## 로컬 실행 방법 (실제 Supabase 연동)
 
 ### 1. 의존성 설치
 
@@ -89,7 +81,7 @@ npm install
 1. [supabase.com](https://supabase.com)에서 새 프로젝트 생성
 2. Supabase 대시보드 → SQL Editor에서 아래 순서로 실행
    - `supabase/schema.sql` 실행 (테이블 생성)
-   - `supabase/seed.sql` 실행 (초기 매장/FAQ 데이터 등록)
+   - `supabase/seed.sql` 실행 (업로드된 워크북 값으로 초기 데이터 등록)
 3. Project Settings → API에서 URL / anon key / service role key 확인
 
 ### 3. 환경변수 설정
@@ -104,8 +96,7 @@ cp .env.local.example .env.local
 NEXT_PUBLIC_SUPABASE_URL=       # Supabase 프로젝트 URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=  # Supabase anon public key
 SUPABASE_SERVICE_ROLE_KEY=      # Supabase service role key (서버 전용, 절대 클라이언트에 노출 금지)
-OPENAI_API_KEY=                 # OpenAI API 키
-ADMIN_PASSWORD=                 # /admin 관리자 로그인 비밀번호
+APP_PASSWORD=                   # 사이트 전체 로그인 비밀번호
 ```
 
 ### 4. 개발 서버 실행
@@ -114,32 +105,29 @@ ADMIN_PASSWORD=                 # /admin 관리자 로그인 비밀번호
 npm run dev
 ```
 
-`http://localhost:3000` 접속. 관리자 페이지는 `http://localhost:3000/admin`에서 `ADMIN_PASSWORD`로 로그인합니다.
+`http://localhost:3000` 접속 후 `APP_PASSWORD`로 로그인합니다.
 
-## Vercel 배포 방법
+## Vercel 배포 방법 (모바일에서 접속해서 수정하려면 필수)
 
 1. GitHub 저장소를 Vercel에 Import
 2. Framework Preset: Next.js (자동 감지)
-3. Project Settings → Environment Variables에 아래 5개 값을 등록
+3. Project Settings → Environment Variables에 아래 4개 값을 등록
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
-   - `OPENAI_API_KEY`
-   - `ADMIN_PASSWORD`
+   - `APP_PASSWORD`
 4. Deploy 클릭
 5. 배포 전에 Supabase 프로젝트에 `schema.sql`, `seed.sql`이 이미 적용되어 있어야 합니다.
+6. 배포된 URL을 모바일 브라우저에서 열고 "홈 화면에 추가"하면 앱처럼 사용할 수 있습니다.
 
-## 개발 우선순위 (구현 완료 상태)
+## 스프레드시트 수식 재현
 
-- 1순위: DB schema, 예약 생성, 예약 목록, 예약 상태 변경 ✅
-- 2순위: 매장 설정, 예약 가능 여부 체크 ✅
-- 3순위: FAQ AI 응답 ✅
-- 4순위: UI 개선, 관리자 비밀번호 보호 ✅
+- 월별 누적 보유자산: 월 순서대로 남는 돈을 계속 더해가는 방식 (`computeMonthlySeries`)
+- 대출 예상 상환개월: Excel `NPER` 재현 (`nper`)
+- CMA/ETF 성장: Excel `FV` 재현 (`fv`, `fvStep`)
+- 목표 순자산 도달 연도: 시나리오별 30년 표에서 목표액을 처음 넘는 연차 탐색 (`computeGoalReachYear`)
 
-## 이번 버전(v0.1)에서 제외된 범위
+## 주의사항
 
-- 네이버 예약 직접 연동
-- 카카오톡 알림톡 연동 (현재는 콘솔 로그로 대체)
-- 결제 기능 / POS 연동
-- 복잡한 테이블 배치 알고리즘
-- SNS 자동화, CRM 고도화
+이 워크북/앱은 개인적인 계획 수립을 돕기 위한 도구이며, 금융/세무 전문가의 투자자문을 대체하지 않습니다.
+모든 수익률·시나리오는 참고용 추정치입니다.
