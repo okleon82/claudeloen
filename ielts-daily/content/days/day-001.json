@@ -1,0 +1,141 @@
+{
+  "day": 1,
+  "date": "2026-07-31",
+  "weekday": "금요일",
+  "topic": "Social Media Regulation and Young People",
+  "listening": {
+    "partA": {
+      "script": "Presenter: Good morning, and welcome back to Morning Edition. Today we're talking to Claire Bennett, a secondary school headteacher, about a new policy her school introduced last term. Claire, thanks for joining us.\n\nClaire: Thanks for having me.\n\nPresenter: So, tell us about this policy.\n\nClaire: From September, students under sixteen are asked to hand in their phones at the start of the school day and collect them at three-thirty, when lessons finish. We keep the phones in a locked cabinet in the main office.\n\nPresenter: And how did parents react?\n\nClaire: Honestly, most were relieved. A lot of them told us they'd been trying to limit screen time at home but felt they were fighting a losing battle once the phone came back into the house after school.\n\nPresenter: What about the students themselves?\n\nClaire: There was resistance at first, especially in the first two weeks. But by the end of October, teachers were reporting that corridors were noticeably calmer during breaks, and more students were actually talking to each other face to face.\n\nPresenter: Have you measured any impact on academic results yet?\n\nClaire: It's early, but our internal assessment scores in November were up compared to the same point last year. We can't say it's entirely down to the policy, but the timing lines up.",
+      "questions": [
+        "Students under the age of ______ must hand in their phones.",
+        "Phones are collected at ______ when lessons finish.",
+        "Confiscated phones are stored in a locked cabinet in the ______.",
+        "Teachers reported that school corridors were noticeably ______ during breaks.",
+        "The school's internal assessment scores were compared with the same point in the previous ______."
+      ],
+      "answers": [
+        "sixteen",
+        "three-thirty",
+        "main office",
+        "calmer",
+        "year"
+      ]
+    },
+    "partB": {
+      "script": "Presenter: Joining Claire now is Daniel Osei, a child psychologist, and Priya Nair, a parent of two teenagers. Daniel, from a psychological perspective, what's your view?\n\nDaniel: Adolescent brains are still developing the self-regulation skills needed to manage constant notifications, so I do think structured limits during the school day are helpful. But a blanket ban isn't a long-term solution on its own — teenagers still need to learn to manage their own use eventually.\n\nPriya: As a parent, I appreciate the school taking some of that pressure off me, but I worry it just delays the problem. My daughter still spends hours on her phone the moment she gets home.\n\nPresenter: So should regulation happen at a national level, rather than school by school?\n\nDaniel: I'd lean toward that, yes. If it's left entirely to individual schools, you get inconsistency, and families with children at different schools end up with completely different rules.\n\nPriya: I'd actually prefer the decision to stay with individual schools. They know their own students and communities best, and a national law feels too rigid to apply everywhere the same way.\n\nDaniel: The other option is putting responsibility on the platforms themselves — stricter age verification, for instance. But enforcement has proven very difficult in practice.",
+      "questions": [
+        {
+          "question": "According to Daniel, why are structured limits during the school day helpful?",
+          "options": [
+            "A) Teenagers prefer having their phones taken away",
+            "B) Adolescent brains are still developing self-regulation skills",
+            "C) Schools are legally required to confiscate phones",
+            "D) Parents cannot enforce rules at home"
+          ]
+        },
+        {
+          "question": "What is Priya's main concern about the school's policy?",
+          "options": [
+            "A) It is too strict for younger students",
+            "B) It only delays the underlying problem",
+            "C) It costs the school too much money",
+            "D) It is not supported by other parents"
+          ]
+        },
+        {
+          "question": "Regarding who should set the rules, Daniel and Priya",
+          "options": [
+            "A) both prefer a national law",
+            "B) both prefer school-by-school decisions",
+            "C) disagree with each other",
+            "D) both prefer leaving it to the tech platforms"
+          ]
+        }
+      ],
+      "answers": ["B", "B", "C"]
+    }
+  },
+  "reading": {
+    "title": "Should Governments Regulate Social Media for Minors?",
+    "article": "Over the past five years, lawmakers in several countries have proposed or passed legislation restricting how social media platforms can operate for users under the age of eighteen. Proposals range from mandatory age verification to outright bans on account creation below a certain age, and the debate shows no sign of settling.\n\nSupporters of regulation point to a growing body of research linking heavy social media use among adolescents to higher rates of anxiety, disrupted sleep, and lower self-esteem, particularly among teenage girls. They argue that platforms are deliberately engineered to maximise engagement through features like infinite scroll and algorithmically curated feeds, and that expecting teenagers — or even parents — to resist these design choices unaided is unrealistic. From this perspective, only external regulation, backed by legal penalties for non-compliance, can force platforms to change their behaviour.\n\nCritics of heavy-handed regulation raise several objections. First, they argue that age verification systems are technically difficult to implement without compromising user privacy, since they typically require collecting sensitive identification data. Second, some worry that outright bans simply push young users toward less regulated, less transparent platforms, or encourage them to lie about their age, which may leave them more exposed to harm rather than less. Third, there is a philosophical objection: some commentators argue that the responsibility for a child's media consumption should rest primarily with parents and guardians, not the state, and that broad legislation risks setting a precedent for government overreach into family life.\n\nA middle position has also emerged, focused on platform design rather than outright access. Under this approach, governments would not ban young users outright but would instead require companies to disable specific features — such as autoplay, push notifications between certain hours, or algorithmic recommendation for under-16 accounts — while leaving core access intact. Early evidence from jurisdictions that have trialled this approach is mixed: some report modest reductions in average daily usage among teenage users, while others have found that determined users quickly find workarounds.\n\nWhat most participants in the debate agree on, regardless of their preferred solution, is that self-regulation by the platforms themselves has so far proven insufficient. Voluntary commitments announced by major technology companies over the past decade have rarely been accompanied by independent verification, and several internal studies leaked by former employees suggested that engagement metrics were prioritised over user wellbeing even after such commitments were made public.",
+    "tfng": {
+      "questions": [
+        "Research has found a connection between heavy adolescent social media use and higher anxiety levels.",
+        "All critics of regulation agree that parents alone should be responsible for children's media use.",
+        "Age verification systems can be implemented without collecting any personal data.",
+        "Some governments have trialled restricting specific platform features rather than banning access outright.",
+        "Independent audits have consistently confirmed that technology companies kept their voluntary commitments."
+      ],
+      "answers": ["True", "Not Given", "False", "True", "False"]
+    },
+    "completion": {
+      "questions": [
+        "Platforms are said to be engineered to maximise engagement through features such as infinite scroll and ______ feeds.",
+        "Critics worry that bans could push young users toward platforms that are less regulated and less ______.",
+        "A 'middle position' in the debate focuses on restricting specific ______ rather than banning access completely.",
+        "Examples of restricted features under this middle position include autoplay and ______ between certain hours.",
+        "Leaked internal studies suggested that ______ metrics were prioritised over user wellbeing."
+      ],
+      "answers": [
+        "algorithmically curated",
+        "transparent",
+        "platform design / features",
+        "push notifications",
+        "engagement"
+      ]
+    }
+  },
+  "speaking": {
+    "part1": [
+      "Do you use social media? Which platforms do you use most often?",
+      "How much time would you say you spend on your phone each day?",
+      "Has the way you use social media changed since you were younger?",
+      "Do you think people your age spend too much time online?"
+    ],
+    "part2": "Describe an app or website that you find very useful.\nYou should say:\n- what it is\n- how you started using it\n- what you use it for\nand explain why you find it useful.",
+    "part3": [
+      "Do you think social media companies should be more strictly regulated by governments?",
+      "In your opinion, should the responsibility for a child's phone use lie mainly with parents or with schools?",
+      "How has social media changed the way young people communicate compared to previous generations?",
+      "Do you think technology companies prioritise profit over user wellbeing? Why or why not?",
+      "What do you think society will look like in twenty years if social media use continues to grow?"
+    ]
+  },
+  "writing": {
+    "task1": {
+      "type": "Semi-formal",
+      "prompt": "You are a parent at a secondary school that is considering introducing a policy banning mobile phones during the school day. Write a letter to the school principal.\n\nIn your letter:\n- explain your understanding of the proposed policy\n- give your opinion on whether you support it\n- suggest one thing the school should consider before implementing it",
+      "outline": "Para 1: Reason for writing, reference to the proposed policy.\nPara 2: State your opinion (support/partial support) with one clear reason.\nPara 3: Suggest one practical consideration (e.g. emergency contact procedure, storage security).\nPara 4: Polite closing, offer to discuss further."
+    },
+    "task2": {
+      "prompt": "Some people believe that governments should heavily regulate social media use among young people. Others think this responsibility should be left to parents.\n\nDiscuss both views and give your own opinion.",
+      "outline": "Intro: paraphrase + thesis stating your position.\nBody 1: Case for government regulation — consistency, platform accountability, research evidence.\nBody 2: Case for parental responsibility — family context, avoiding state overreach, practicality.\nBody 3 (optional): Middle-ground / shared responsibility.\nConclusion: restate opinion, brief justification."
+    },
+    "feedback": {
+      "before": "Nowadays, a lot of young people using social media too much and it become a big problem for society. Some people think that government must control this, but other people think parents should to do this job by themself. In my opinion, I think both of them are important for solving this issue.\n\nFirstly, government can make a law about social media, for example, they can say the app must check age of user before they use it. This is good because it can protect all children in the country, not only some family who have good parents. If only parents are responsible, some children will not be protect because their parents don't care or don't have time.",
+      "comment": "문법: 'young people using' → 'young people use'; 'it become' → 'it has become'; 'should to do' → 'should do'; 'themself' → 'themselves' 로 수정 필요.\n\n어휘: 'good' 같은 기본 형용사 대신 'effective', 'beneficial' 등 IELTS 밴드에 맞는 어휘 사용 권장.\n\n구조: 두 번째 문단에서 예시(law, age verification)는 좋으나, 반대 관점(부모 책임론)에 대한 균형 잡힌 문단이 부족함. Discuss both views 문제 유형에서는 반드시 두 입장을 각각 한 문단씩 균형 있게 전개해야 함.\n\n일관성: 'In my opinion' 을 서론에서 미리 밝혔다면 본론에서 반복하지 말고, 결론에서 다시 언급하는 것이 자연스러움.",
+      "after": "In recent years, excessive social media use among young people has become a significant concern in many societies. While some argue that governments should impose strict regulations on these platforms, others maintain that this responsibility belongs primarily to parents. This essay will examine both perspectives before presenting my own view, which is that a combination of the two approaches is most effective.\n\nOn one hand, proponents of government regulation argue that only state-level intervention can guarantee consistent protection for all children, regardless of their family circumstances. For instance, mandatory age-verification requirements imposed by law would apply uniformly to every platform, ensuring that children are not left vulnerable simply because their parents lack the time, awareness, or resources to monitor their online activity closely."
+    }
+  },
+  "vocab": [
+    { "word": "regulation", "meaning": "a rule or law made by an authority to control behaviour", "example": "The new regulation requires apps to verify users' ages." },
+    { "word": "engagement", "meaning": "the level of a user's interaction and involvement with something", "example": "Infinite scroll is designed to increase user engagement." },
+    { "word": "self-esteem", "meaning": "confidence in one's own worth or abilities", "example": "Heavy social media use has been linked to lower self-esteem in teenagers." },
+    { "word": "overreach", "meaning": "the act of going beyond what is appropriate or authorised", "example": "Critics warn the law risks government overreach into family life." },
+    { "word": "verification", "meaning": "the process of confirming that something is true or accurate", "example": "Age verification is difficult to enforce without collecting personal data." },
+    { "word": "compliance", "meaning": "the act of obeying a rule or request", "example": "Platforms that fail to comply face significant fines." },
+    { "word": "wellbeing", "meaning": "the state of being comfortable, healthy, or happy", "example": "Employees complained that engagement metrics were prioritised over user wellbeing." },
+    { "word": "workaround", "meaning": "a way of overcoming a problem without solving its root cause", "example": "Determined teenagers quickly find a workaround for app restrictions." }
+  ],
+  "idioms": [
+    { "phrase": "a double-edged sword", "meaning": "something that has both positive and negative effects", "example": "Social media is a double-edged sword: it connects people but can also harm mental health." },
+    { "phrase": "get out of hand", "meaning": "to become difficult to control", "example": "Screen time can get out of hand without any household rules." },
+    { "phrase": "draw the line", "meaning": "to set a limit on what is acceptable", "example": "Parents need to draw the line somewhere when it comes to phone use at the dinner table." },
+    { "phrase": "food for thought", "meaning": "something worth thinking about seriously", "example": "The psychologist's comments gave parents plenty of food for thought." },
+    { "phrase": "a slippery slope", "meaning": "a course of action likely to lead to something worse", "example": "Some argue that banning one app is a slippery slope toward broader censorship." }
+  ],
+  "recommendations": {
+    "article": { "title": "BBC News — Technology", "url": "https://www.bbc.com/news/technology" },
+    "podcast": { "title": "NPR — Technology", "url": "https://www.npr.org/sections/technology/" }
+  }
+}

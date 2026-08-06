@@ -1,0 +1,141 @@
+{
+  "day": 2,
+  "date": "2026-08-01",
+  "weekday": "토요일",
+  "topic": "Remote Work and Work-Life Balance",
+  "listening": {
+    "partA": {
+      "script": "Agent: Good afternoon, WorkSpace Solutions, how can I help you today?\n\nCaller: Hi, I'm calling to enquire about renting a desk at one of your co-working spaces. I've been working from home but I need somewhere quieter a few days a week.\n\nAgent: Sure, I can help with that. We have three locations — Riverside, Central, and Northgate. Which area suits you best?\n\nCaller: Probably Central, since it's close to where I live.\n\nAgent: Great. Our Central branch offers a hot-desk membership for eighty-five pounds a month, which gives you access three days a week, or a full membership for one hundred and forty pounds for unlimited access.\n\nCaller: I think three days a week would be enough for now. What are the opening hours?\n\nAgent: The Central branch is open from seven in the morning until nine at night, Monday to Friday, and from nine until five on Saturdays.\n\nCaller: Perfect. And is there parking available?\n\nAgent: There's a car park next door, but members get a discounted rate of four pounds for the whole day instead of the usual eight.\n\nCaller: That's good to know. How do I sign up?\n\nAgent: I can email you the registration form right now — could I take your email address?",
+      "questions": [
+        "The caller is interested in the ______ branch, which is close to where they live.",
+        "A hot-desk membership giving access three days a week costs ______ pounds a month.",
+        "The Central branch is open until ______ on weekdays.",
+        "On Saturdays, the branch is open from nine until ______.",
+        "Members pay a discounted parking rate of ______ pounds for the whole day."
+      ],
+      "answers": [
+        "Central",
+        "eighty-five",
+        "nine",
+        "five",
+        "four"
+      ]
+    },
+    "partB": {
+      "script": "Host: This week on Working Lives, we're discussing remote work with two guests — Marcus Webb, an HR director, and Sofia Alves, who has worked remotely for six years. Marcus, what's the biggest challenge you see employers facing?\n\nMarcus: Honestly, it's measuring productivity fairly. Some managers still equate visible activity with actual output, which creates unnecessary pressure on remote staff to appear busy rather than focus on results.\n\nSofia: I'd agree with that, but from an employee's side, my biggest challenge has actually been isolation. I miss the casual conversations you have in an office that often lead to good ideas.\n\nHost: Do you think companies should mandate a certain number of in-office days?\n\nMarcus: We've settled on two days a week as a minimum, and honestly it's worked well for us — it preserves some collaboration time without erasing the flexibility employees value.\n\nSofia: I'm more sceptical of mandates in general. I think it should depend on the role and the individual, rather than a fixed company-wide rule.\n\nHost: And looking ahead, where do you both see this heading in the next five years?\n\nMarcus: I expect most large companies will settle into some kind of hybrid model as the default, rather than fully remote or fully in-office.\n\nSofia: I actually think fully remote will become more common for specialised roles, as companies compete for talent regardless of location.",
+      "questions": [
+        {
+          "question": "According to Marcus, what is the biggest challenge for employers?",
+          "options": [
+            "A) Paying remote workers a fair salary",
+            "B) Fairly measuring employee productivity",
+            "C) Finding enough office space",
+            "D) Training new remote staff"
+          ]
+        },
+        {
+          "question": "What does Sofia say she misses most about office work?",
+          "options": [
+            "A) Free lunches provided by the company",
+            "B) A shorter daily commute",
+            "C) Casual conversations that can lead to good ideas",
+            "D) Having a manager nearby to ask questions"
+          ]
+        },
+        {
+          "question": "Marcus and Sofia's views on mandatory in-office days",
+          "options": [
+            "A) are identical",
+            "B) differ from each other",
+            "C) both reject any mandate",
+            "D) both support a five-day mandate"
+          ]
+        }
+      ],
+      "answers": ["B", "C", "B"]
+    }
+  },
+  "reading": {
+    "title": "The Hybrid Work Debate: Where Is the Middle Ground?",
+    "article": "When large numbers of office workers began working from home in the early 2020s, many assumed the shift was temporary. Several years on, however, hybrid and remote arrangements have become a permanent feature of many industries, and organisations are still experimenting to find a model that satisfies both business needs and employee expectations.\n\nProponents of remote work point to substantial gains in employee satisfaction and, in many cases, measurable productivity. Removing a daily commute frees up time that employees can redirect toward rest, family, or focused work, and surveys consistently show that flexibility ranks among the top factors candidates consider when evaluating job offers. Companies that offer remote options often report a wider pool of applicants, since location is no longer a limiting factor.\n\nHowever, executives in favour of returning to the office argue that spontaneous, informal interaction — the kind that happens at a shared coffee machine or in a chance corridor conversation — is difficult to replicate virtually, and that this kind of interaction disproportionately benefits younger or newer employees who are still building professional networks and learning organisational norms. Some studies have also suggested that fully remote teams take slightly longer to resolve ambiguous problems that require rapid, informal back-and-forth discussion.\n\nHybrid models, which combine a set number of in-office days with remote flexibility, have emerged as the most common compromise. Yet even here, disagreement persists over the details: should the specific in-office days be fixed company-wide to maximise overlap, or left to individual teams to coordinate? Fixed schedules tend to guarantee more colleagues are present simultaneously, but they can feel inflexible to employees managing childcare or long commutes, whereas team-level flexibility increases employee satisfaction but risks near-empty offices on some days and overcrowded ones on others.\n\nWhat is increasingly clear is that a single nationwide or even industry-wide policy is unlikely to suit every organisation. Factors such as the nature of the work, the age and experience of the workforce, and the cost of office space all shape which arrangement makes the most sense for a given company.",
+    "tfng": {
+      "questions": [
+        "Remote work arrangements have proven to be only a short-term response to a temporary situation.",
+        "Companies offering remote options often report a wider pool of job applicants.",
+        "All studies agree that remote teams are slower to solve every type of problem.",
+        "Hybrid models always fix the same in-office days for the entire company.",
+        "The passage suggests that a single policy is unlikely to suit every organisation."
+      ],
+      "answers": ["False", "True", "Not Given", "False", "True"]
+    },
+    "completion": {
+      "questions": [
+        "Removing a daily commute frees up time employees can redirect toward rest, family, or ______ work.",
+        "Younger or newer employees particularly benefit from informal interaction while building professional ______.",
+        "Hybrid models combine a set number of in-office days with remote ______.",
+        "Fixed company-wide schedules guarantee more colleagues are present ______.",
+        "Team-level flexibility can risk near-empty offices on some days and ______ ones on others."
+      ],
+      "answers": [
+        "focused",
+        "networks",
+        "flexibility",
+        "simultaneously",
+        "overcrowded"
+      ]
+    }
+  },
+  "speaking": {
+    "part1": [
+      "Do you work or study at the moment?",
+      "Would you prefer to work from home or in an office? Why?",
+      "How do you usually spend your commute, if you have one?",
+      "Do you think it's important to separate work life and home life?"
+    ],
+    "part2": "Describe a job you would like to have in the future.\nYou should say:\n- what the job is\n- what skills or qualifications it requires\n- where you would like to do this job\nand explain why you would like to have this job.",
+    "part3": [
+      "What are the advantages and disadvantages of working from home?",
+      "Do you think technology has made people work more or less than in the past?",
+      "How might the way people work change over the next twenty years?",
+      "Should companies be required to offer flexible working arrangements to all employees?",
+      "Do you think young people entering the workforce today face different challenges than previous generations?"
+    ]
+  },
+  "writing": {
+    "task1": {
+      "type": "Formal",
+      "prompt": "You recently started a new job that requires you to work from home two days a week, but you do not have suitable equipment. Write a letter to your manager.\n\nIn your letter:\n- explain your situation\n- describe what equipment you need\n- suggest how the company could help",
+      "outline": "Para 1: State purpose of the letter and new working arrangement.\nPara 2: Explain the specific problem (e.g. no proper desk/monitor).\nPara 3: List equipment needed and suggest a practical solution (reimbursement, company-supplied equipment).\nPara 4: Polite closing, request a response."
+    },
+    "task2": {
+      "prompt": "In many countries, more people are choosing to work from home rather than in a traditional office. Do the advantages of this trend outweigh the disadvantages?",
+      "outline": "Intro: paraphrase + thesis (advantages outweigh / disadvantages outweigh / balanced).\nBody 1: Advantages — flexibility, reduced commute, wider talent pool.\nBody 2: Disadvantages — isolation, collaboration difficulty, blurred work-life boundaries.\nConclusion: restate position with brief justification."
+    },
+    "feedback": {
+      "before": "Working from home have many advantage for worker. First, they don't need to spend time for travel to office, so they can use this time for sleep more or spend time with family. Second, worker can focus better because office is very noisy sometimes and many people disturb them.\n\nBut working from home also have some problem. Worker can feel lonely because they don't meet colleague every day. Also, some worker can't stop working because their house and office is same place, so they work too much time.",
+      "comment": "문법: 'have many advantage' → 'has many advantages'; 'time for sleep more' → 'more time to sleep'; 'also have some problem' → 'also has some problems' 로 수정.\n\n연결어: 문단 간 전환이 First/Second/But 정도로 단순함. 'On the other hand', 'However' 같은 격식 있는 연결어 사용 권장.\n\n내용 전개: 각 장점/단점이 한 문장으로 짧게 끝나 근거(예시, 결과)가 부족함. 구체적인 예시를 한두 개 추가하면 밴드 상승에 도움됨.\n\n어휘: 'problem' 대신 'drawback', 'downside' 등 다양한 어휘 사용 권장.",
+      "after": "Working from home offers several notable advantages for employees. Firstly, eliminating the daily commute frees up a significant amount of time, which workers can redirect toward rest or spending quality time with family. Secondly, many employees report being able to concentrate more effectively at home, since a typical office environment often involves frequent interruptions from colleagues or background noise.\n\nHowever, this arrangement is not without its drawbacks. Many remote workers report a growing sense of isolation, having lost the daily face-to-face contact with colleagues that once provided both social support and opportunities for informal collaboration. Furthermore, because the boundary between home and workplace becomes blurred, some employees find it difficult to switch off at the end of the day, which can ultimately lead to overwork and burnout."
+    }
+  },
+  "vocab": [
+    { "word": "hybrid", "meaning": "combining two different approaches or elements", "example": "Many companies have adopted a hybrid model of two office days and three remote days." },
+    { "word": "productivity", "meaning": "the rate at which work is completed effectively", "example": "Managers debated how to measure productivity fairly among remote staff." },
+    { "word": "isolation", "meaning": "the state of being separated from others", "example": "Working from home for years left her feeling a growing sense of isolation." },
+    { "word": "commute", "meaning": "the journey made regularly between home and work", "example": "Eliminating the daily commute gave employees an extra hour each day." },
+    { "word": "flexibility", "meaning": "the ability to adapt to different circumstances", "example": "Job seekers increasingly rank flexibility as a top priority." },
+    { "word": "burnout", "meaning": "a state of physical or emotional exhaustion caused by prolonged stress", "example": "Blurred boundaries between home and work can lead to burnout." },
+    { "word": "collaboration", "meaning": "the act of working together to produce something", "example": "In-office days are intended to preserve time for collaboration." },
+    { "word": "talent pool", "meaning": "the group of potential employees available for hire", "example": "Remote hiring allows companies to draw from a much wider talent pool." }
+  ],
+  "idioms": [
+    { "phrase": "strike a balance", "meaning": "to find a satisfactory middle point between two extremes", "example": "Companies are trying to strike a balance between flexibility and collaboration." },
+    { "phrase": "burn the midnight oil", "meaning": "to work late into the night", "example": "Without a fixed office schedule, some remote workers end up burning the midnight oil." },
+    { "phrase": "call it a day", "meaning": "to stop working on something", "example": "It's hard to call it a day when your office is also your living room." },
+    { "phrase": "in the driver's seat", "meaning": "in a position of control", "example": "Skilled remote workers are increasingly in the driver's seat when negotiating job offers." },
+    { "phrase": "think outside the box", "meaning": "to think creatively, beyond conventional approaches", "example": "Managers had to think outside the box to keep remote teams engaged." }
+  ],
+  "recommendations": {
+    "article": { "title": "The Guardian — Work & Careers", "url": "https://www.theguardian.com/money/work-and-careers" },
+    "podcast": { "title": "HBR IdeaCast", "url": "https://hbr.org/podcast/ideacast" }
+  }
+}

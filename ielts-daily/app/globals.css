@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100;
+  }
+}
+
+/* Answer key is hidden by default when printing; the PrintButton's
+   "정답지 포함하여 인쇄" checkbox toggles this body class before print. */
+@media print {
+  #answer-key-accordion {
+    display: none;
+  }
+  body.print-with-answers #answer-key-accordion {
+    display: block;
+  }
+
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+}
